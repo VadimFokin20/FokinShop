@@ -1,0 +1,8 @@
+[
+  {
+    "outputFileName": "wwwroot/js/templatemo.min.js",
+    "inputFiles": [
+      "wwwroot/js/templatemo.js"
+    ]
+  }
+]

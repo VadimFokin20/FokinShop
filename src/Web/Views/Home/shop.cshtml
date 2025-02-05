@@ -1,0 +1,115 @@
+@using FokinShop.ApplicationCore.Entities
+@{
+    ViewData["Title"] = "Shop";
+    @model ShopViewModel
+
+    Dictionary<string, string?> filters = new();
+    foreach (var param in Context.Request.Query)
+        filters.Add(param.Key, param.Value);
+
+
+
+    void ReturnToDefaultQueryString(string key, string? filterApplied)
+    {
+        filters[key] = filterApplied;        
+    }
+}
+
+<!-- Start Content -->
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-3">
+            <h1 class="h2 pb-4">Categories</h1>
+            <ul class="list-unstyled templatemo-accordion">
+                <li class="pb-3">
+                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
+                        Product types
+                        <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
+                    </a>
+                    <ul class="collapse show list-unstyled pl-3">
+                        @foreach (var type in Model.Types)
+                        {
+                            string style = type.Id == Model.TypeFilterApplied ? "fw-bolder" : "";
+                            <li><a class="text-decoration-none @style" asp-all-route-data="@filters" asp-route-type="@type.Id">@type.Type</a></li>
+                        }
+                        @{
+                            ReturnToDefaultQueryString("type", Model.TypeFilterApplied.ToString());
+                        }
+                    </ul>
+                </li>
+                <li class="pb-3">
+                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
+                        Brands
+                        <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
+                    </a>
+                    <ul id="collapseTwo" class="collapse list-unstyled pl-3">
+                        @foreach (var brand in Model.Brands)
+                        {
+                            string style = brand.Id == Model.BrandFilterApplied ? "fw-bolder" : "";
+                            <li><a class="text-decoration-none @style" asp-all-route-data="@filters" asp-route-brand="@brand.Id">@brand.Brand</a></li>
+                        }
+                        @{
+                            ReturnToDefaultQueryString("brand", Model.BrandFilterApplied.ToString());
+                        }
+                    </ul>
+                </li>
+                <li class="pb-3">
+                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
+                        Sizes
+                        <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
+                    </a>
+                    <ul id="collapseThree" class="collapse list-unstyled pl-3">
+                        <li><a class="text-decoration-none @(Model.SizeFilterApplied == 0 ? "fw-bolder" : "")" asp-all-route-data="@filters" asp-route-size="0">All</a></li>
+                        @foreach (var size in Model.Sizes)
+                        {
+                            string style = size.Id == Model.SizeFilterApplied ? "fw-bolder" : "";
+                            <li><a class="text-decoration-none @style" asp-all-route-data="@filters" asp-route-size="@size.Id">@size.Size</a></li>
+                        }
+                        @{
+                            ReturnToDefaultQueryString("size", Model.SizeFilterApplied.ToString());
+                        }
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-lg-9">
+            <div class="row">
+@*              <div class="col-md-6">
+                    <ul class="list-inline shop-top-menu pb-3 pt-1">
+                        <li class="list-inline-item">
+                            <a class="h3 text-dark text-decoration-none mr-3" href="#">All</a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a class="h3 text-dark text-decoration-none mr-3" href="#">Men's</a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a class="h3 text-dark text-decoration-none" href="#">Women's</a>
+                        </li>
+                    </ul>
+                </div> *@
+                <div class="col-md-6 pb-4">
+                    <div class="d-flex">
+                        <select class="form-control">
+                            <option>Featured</option>
+                            <option>A to Z</option>
+                            <option>Item</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <!-- Products row -->
+                @foreach (var catalogItem in Model.CatalogItems)
+                {
+                    <partial name="_productPartial" for="@catalogItem" />
+                }
+            </div>
+            <div div="row">
+                <partial name="_paginationPartial"  for="@Model.Pagination"/>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- End Content -->

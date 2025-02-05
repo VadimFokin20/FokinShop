@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "bE9/vVK5CZ37Xce9GS9djEhtGTSapAAZw88/6EPMUp2ji/R+4949Z6ypyUjPYBH3C7HR7n8qy7hgLfsJwJ55jQ==",
+  "success": true,
+  "projectFilePath": "C:\\_Learn\\FokinShop\\src\\ApplicationCore\\ApplicationCore.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\fokin\\.nuget\\packages\\ardalis.specification\\8.0.0\\ardalis.specification.8.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

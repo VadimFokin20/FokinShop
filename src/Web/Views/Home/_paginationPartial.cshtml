@@ -1,0 +1,35 @@
+﻿@{
+    @model PaginationViewModel
+
+    Dictionary<string, string?> filters = new();
+    foreach (var param in Context.Request.Query)
+        filters.Add(param.Key, param.Value);
+}
+
+<ul class="pagination pagination-lg justify-content-center">
+    @if (Model != null && Model.Previous.HasValue)
+    {
+        <li class="page-item">
+            <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" asp-all-route-data="@filters" asp-route-page="@Model.Previous" tabindex="-1">Previous</a>
+        </li>
+    }
+    @for (int i = 1; i <= Model?.TotalPages; i++)
+    {
+        bool isCurPage = i == Model.CurrentPage;
+        string className = isCurPage ? "page-item disabled" : "page-item";
+        string textStyle = isCurPage ? 
+            "page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0" : 
+            "page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark";
+        int tabIndex = isCurPage ? -1 : 0;
+
+        <li class="@className">
+            <a class="@textStyle" asp-all-route-data="@filters" asp-route-page="@i" tabindex="@tabIndex">@i</a>
+        </li>
+    }
+    @if (Model != null && Model.Next.HasValue)
+    {
+        <li class="page-item">
+            <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" asp-all-route-data="@filters" asp-route-page="@Model.Next" tabindex="-1">Next</a>
+        </li>
+    }
+</ul>
